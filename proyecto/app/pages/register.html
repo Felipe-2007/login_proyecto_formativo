@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="register.js" defer></script>
+</head>
+<main>
+    
+    <div class="form-container">
+        
+        <div class="izquierda">  
+            
+            <div class="encabezado">
+                <img src="img/logo.png" class="logo_register">
+                <h1>JCasas</h1>
+                <P>ingresa para pedir tus platos favoritos</P>
+            </div>
+
+            <div class ="botones">
+                <form action="/" method="get">
+                <button type="submit"> iniciar sesion </button>
+                </form>
+                <button> Registrarse </button> 
+            </div>    
+
+            <form id"login-form" action="/register" method="post"> <!--crear un formulario -->
+            
+            
+                <label for="correo">Correo electronico</label>
+                <input type="email" name="correo" id="correo" placeholder="EJ: jm4466408@gmail.com">
+
+                <label for="nombre">Nombre de usuario</label>
+                <input type="text" name="nombre" id="nombre" placeholder="nombre de usuario">
+
+            
+                <label for="telefono">Telefono</label>
+                <input type="text" name="telefono" id="telefono" placeholder="EJ: 3209162021">
+            
+                <label for="contrasena">Contraseña</label>
+                <input type="password" name="contrasena" id="contrasena" placeholder="contraseña de usuario">
+
+                <div class="permisos">
+                <input type="checkbox"> <span> acepta terminos y condiciones </span>
+                </div> <!-- div(agrupar  todo lo que este dentro del div)-->
+            
+                <button type= "submit"> Registrarse</button>
+            </form>
+        </div>
+
+        <div class="derecha">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Aculco_Restaurante_T%C3%ADpico.jpg" alt="">
+        </div>
+
+    </div>
+
+    </div>
+</main>
+</body>
+</html>
