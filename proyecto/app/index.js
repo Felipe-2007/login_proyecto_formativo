@@ -1,46 +1,71 @@
 const express = require('express');
-const mysql = require('mysql2');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
 const path = require('path');
-
+const mysql = require('mysql2');
+const bcrypt = require('bcrypt');
 const app = express();
-app.set("port", 4000);
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
+// Middlewares
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Conexión a MySQL
+// Configuración de Base de Datos
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'proyectoDB'
+    host: 'localhost',
+    user: 'root',
+    password: '123',
+    database: 'proyectoDB'
 });
 
-// Rutas para páginas
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "/pages/login.html")));
-app.get("/register", (req, res) => res.sendFile(path.join(__dirname, "/pages/register.html")));
+// ¡IMPORTANTE! Debes definir esta variable antes de usarla
+const intentosFallidos = {};
 
-// Ruta para registrar usuario
-app.post("/register", async (req, res) => {
-  const { correo, nombre, telefono, contrasena } = req.body;
-  const hashedPassword = await bcrypt.hash(contrasena, 10);
+// Ruta GET para cargar el login
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, 'pages', 'login.html')));
 
-  const sql = "INSERT INTO usuarios (correo, nombre, telefono, contrasena) VALUES (?, ?, ?, ?)";
-  db.query(sql, [correo, nombre, telefono, hashedPassword], (err, result) => {
-    if (err) {
-      console.error(err);
-      res.send("Error al registrar usuario");
-    } else {
-      res.send("Usuario registrado con éxito");
+app.post("/login", (req, res) => {
+    const { correo, contrasena } = req.body;
+
+    // Verificar si el usuario está bloqueado
+    if (intentosFallidos[correo] >= 3) {
+        return res.status(429).send("Cuenta bloqueada por 3 intentos fallidos.");
     }
-  });
+
+    db.query("SELECT * FROM usuarios WHERE correo = ?", [correo], async (err, results) => {
+        if (err) return res.status(500).send("Error en el servidor");
+
+        if (results.length > 0) {
+            const usuario = results[0];
+            // Comparar contraseña
+            const match = await bcrypt.compare(contrasena, usuario.contrasena);
+
+            if (match) {
+                intentosFallidos[correo] = 0; // Resetear intentos
+                return res.send("¡Login exitoso!");
+            }
+        }
+
+        // Incrementar intentos si falla
+        intentosFallidos[correo] = (intentosFallidos[correo] || 0) + 1;
+        const restantes = 3 - intentosFallidos[correo];
+        
+        if (restantes > 0) {
+            res.status(401).send(`Credenciales incorrectas. Te quedan ${restantes} intentos.`);
+        } else {
+            res.status(429).send("Ya superaste los 3 intentos. Cuenta bloqueada.");
+        }
+    });
 });
 
-// Iniciar servidor
-app.listen(app.get("port"), () => {
-  console.log("Servidor corriendo en el puerto", app.get("port"));
+// Recuperar contraseña
+app.get("/recuperar", (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'recuperar.html'));
 });
+
+app.post("/recuperar", (req, res) => {
+    const { correo } = req.body;
+    console.log("Recuperación solicitada para:", correo);
+    res.send("Se han enviado las instrucciones a tu correo.");
+});
+
+app.listen(4000, () => console.log("Servidor en http://localhost:4000"));

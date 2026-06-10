@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css"> <title>Recuperar Contraseña</title>
+</head>
+<body>
+    <main>
+        <div class="form-container">
+            <div class="izquierda">
+                <div class="encabezado">
+                    <h1>Recuperar Contraseña</h1>
+                    <p>Introduce tu correo para enviarte las instrucciones</p>
+                </div>
+                
+               <form id="recuperar-form">
+    <label for="correo">Correo Registrado</label>
+    <input type="email" name="correo" id="correo" required>
+  
+<form id="recuperar-form">
+    <button type="submit">Enviar Instrucciones</button>
+</form>
+
+<div style="margin-top: 15px; text-align: center;">
+    <a href="/" style="text-decoration: none; color: #C78E4B; font-weight: bold;">
+        &larr; Volver al Inicio de Sesión
+    </a>
+</div>
+<script>
+document.getElementById("recuperar-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const correo = document.getElementById("correo").value;
+
+    const response = await fetch("/recuperar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ correo })
+    });
+
+    const mensaje = await response.text();
+    alert(mensaje); // Aquí verás el mensaje de confirmación
+});
+</script>
+    </main>
+</body>
+</html>

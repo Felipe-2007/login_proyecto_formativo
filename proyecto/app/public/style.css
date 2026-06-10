@@ -1,117 +1,38 @@
-
-body{
-
-    background: #f5f5f5;
+body {
+    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
-
-.form-container{      /*ajustar el contenedor del todo el formulario*/
-    width: 100%;
-    height: 200%;
-    display: flex;
-    min-height:100vh;
-    
-    
-}
-
-.izquierda{
-    width: 45%;
-    background: #f4f4f4;
-    padding: 40px 90px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-
-.derecha{               /* ajustar el lado donde va la imagen*/
-    width: 55%;
-    overflow: hidden;
-}
-
-.derecha img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-
-.encabezado{
+.form-container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+    width: 350px;
     text-align: center;
 }
 
-form{
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /*espacio*/
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box; /* Importante para que el padding no rompa el diseño */
 }
 
-form+P{                 /*SELECCIONAR PARRAFO y ajustarlo*/
-    text-align: center;
-} 
-
-input, button{                    /*configurar inputs (donde se ingresa datos)*/
-    border-radius: 12px;
-    border: 1px solid black;
-    border-color: black;
-    padding: 15px 30px;
-    background-color: white;
-
-}
-
-button{
-    background-color:  #C78E4B;
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #C78E4B; /* El color de tu botón original */
     color: white;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-}
-
-
-.botones{
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 20px;
-    white-space: nowrap;
-}
-
-.botones button{
-    width: 100%;   
-    height: 50px;   
-    font-size: 16px;
-    border: unset;
-    background-color: #C78E4B;
-    color: white;
-    cursor: pointer;
-    border-radius: 12px;
-}
-
-
-.permisos{
-    margin-top: 18px;
-    display: flex;
-    gap: 10px;
-    font-size: 13px;
-    justify-content: center;
-}
-
-
-.logo_login{
-    width: 150px;       
-    height: 150px;      
-    object-fit: contain; 
-    background-color: white; 
-    border: unset;
-}
-
-.logo_register{
-    width: 50px;       
-    height: 50px;      
-    object-fit: contain; 
-    background-color: white; 
-    border: unset;
+    font-weight: bold;
 }
